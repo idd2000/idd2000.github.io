@@ -52,6 +52,7 @@ header{
     flex-direction: column;
     gap: 30px;
     overflow: hidden;
+    text-decoration: none;
 }
 .portfolio-card__cover{
     width: 100%;
