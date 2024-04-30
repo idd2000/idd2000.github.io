@@ -129,3 +129,120 @@ header{
 main{
     min-height: calc(100vh - 330px);
 }
+
+.detailPreview{
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.detailPreview__topRow .btn{
+    padding: 11px 12px 12px 12px;
+    background-color: #161B22;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 20px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: fit-content;
+    text-decoration: none;
+}
+
+.detailPreview__main{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+.detailPreview__photo img{
+    width: 100%;
+    height: 100%;
+}
+.detailPreview__about{
+    padding: 20px 0 20px 40px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.detailPreview__title{
+    font-weight: 700;
+    font-size: 45px;
+    line-height: 87.94%;
+}
+.detailPreview__subtitle{
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 87.94%;
+    color: #D5FF3F;
+}
+.detailPreview__description{
+    font-weight: 400;
+    font-size: 21.7094px;
+    line-height: 28px;
+    color: #8B949E;
+}
+.detailPreview__stack{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.detailPreview__stackTitle{
+    font-weight: 700;
+    font-size: 27px;
+    line-height: 87.94%;
+    color: #FFFFFF;
+}
+
+.detailPreview__stackList{
+    display: flex;
+    gap: 8px;
+}
+.detailPreview__stackItem{
+    height: 53px;
+}
+
+.detailPreview__buttons{
+    display: flex;
+    gap: 10px;
+}
+.detailPreview__buttons a{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    width: 226px;
+    padding-top: 16px;
+    padding-bottom: 17px;
+    background-color: #D5FF3F;
+    text-decoration: none;
+    color: #161B22;
+    font-weight: 700;
+    font-size: 23px;
+    line-height: 87.94%;
+    border-radius: 10px;
+}
+.detailPreview__buttons a:hover{
+    background-color: #bee436;
+}
+
+.detailText{
+    background-color: #161B22;
+    padding: 39px 46px 55px;
+    border-radius: 10px;
+}
+
+.detailText h2{
+    font-weight: 700;
+    font-size: 45px;
+    line-height: 87.94%;
+    color: #D5FF3F;
+    margin-bottom: 11px;
+}
+.detailText li{
+    color: #fff;
+}
+
+.detailText .grey{
+    color: #8B949E;
+}
