@@ -1,173 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Игра на JavaScript</title>
+  <link rel="stylesheet" href="css/style.css">
   
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/style.css?v=1">
+  <link rel="preload" href="img_old/apple.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/body_bottomleft.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/body_bottomright.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/body_horizontal.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/body_topleft.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/body_topright.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/body_vertical.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/ground.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/head_down.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/head_left.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/head_right.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/head_up.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/tail_down.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/tail_left.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/tail_right.png" as="image" type="image/png" />
+  <link rel="preload" href="img_old/tail_up.png" as="image" type="image/png" />
 </head>
-
 <body>
-  <header class="w-100">
-    <nav class="navbar navbar-expand-sm navbar-dark w-100">
-      <div class="container justify-content-end">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-          <ul class="navbar-navœ">
-            <!-- <li class="nav-item">
-              <a class="nav-link text-end pe-1" aria-current="page" href="#">Главная</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-end pe-1" href="#">О мне</a>
-            </li> -->
-            <li class="nav-item">
-              <a class="nav-link text-end pe-1 active" href="#">Проекты</a>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link text-end pe-1" href="#">Контакты</a>
-            </li> -->
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <main class="container">
-    <section class="portfolio-list">
-
-
-      
-      <a href="detail.html" class="portfolio-card">
-        <img class="portfolio-card__cover" src="/img/image 7.png" alt="image">
-        <div class="portfolio-card__bottom">
-          <span class="portfolio-card__title">Портфолио</span>
-          <span class="portfolio-card__subtitle">fullstack</span>
-          <p class="portfolio-card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, corporis! Corrupti, vitae quia non excepturi
-            nihil porro repellat blanditiis doloribus aliquid tenetur, quibusdam quae sit tempora ab recusandae iusto
-            ducimus.</span>
-          <div class="portfolio-card__frameworks">
-            <img src="/img/logos/react.svg" alt="js">
-            <img src="/img/logos/js.svg" alt="js">
-            <img src="/img/logos/css3.svg" alt="js">
-            <img src="/img/logos/figma.svg" alt="js">
-          </div>
-        </div>
-      </a>
-      
-      <a href="detail.html" class="portfolio-card">
-        <img class="portfolio-card__cover" src="/img/image 7.png" alt="image">
-        <div class="portfolio-card__bottom">
-          <span class="portfolio-card__title">Портфолио</span>
-          <span class="portfolio-card__subtitle">fullstack</span>
-          <p class="portfolio-card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, corporis! Corrupti, vitae quia non excepturi
-            nihil porro repellat blanditiis doloribus aliquid tenetur, quibusdam quae sit tempora ab recusandae iusto
-            ducimus.</span>
-          <div class="portfolio-card__frameworks">
-            <img src="/img/logos/react.svg" alt="js">
-            <img src="/img/logos/js.svg" alt="js">
-            <img src="/img/logos/css3.svg" alt="js">
-            <img src="/img/logos/figma.svg" alt="js">
-          </div>
-        </div>
-      </a>
-      
-      <a href="detail.html" class="portfolio-card">
-        <img class="portfolio-card__cover" src="/img/image 7.png" alt="image">
-        <div class="portfolio-card__bottom">
-          <span class="portfolio-card__title">Портфолио</span>
-          <span class="portfolio-card__subtitle">fullstack</span>
-          <p class="portfolio-card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, corporis! Corrupti, vitae quia non excepturi
-            nihil porro repellat blanditiis doloribus aliquid tenetur, quibusdam quae sit tempora ab recusandae iusto
-            ducimus.</span>
-          <div class="portfolio-card__frameworks">
-            <img src="/img/logos/react.svg" alt="js">
-            <img src="/img/logos/js.svg" alt="js">
-            <img src="/img/logos/css3.svg" alt="js">
-            <img src="/img/logos/figma.svg" alt="js">
-          </div>
-        </div>
-      </a>
-      
-      <a href="detail.html" class="portfolio-card">
-        <img class="portfolio-card__cover" src="/img/image 7.png" alt="image">
-        <div class="portfolio-card__bottom">
-          <span class="portfolio-card__title">Портфолио</span>
-          <span class="portfolio-card__subtitle">fullstack</span>
-          <p class="portfolio-card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, corporis! Corrupti, vitae quia non excepturi
-            nihil porro repellat blanditiis doloribus aliquid tenetur, quibusdam quae sit tempora ab recusandae iusto
-            ducimus.</span>
-          <div class="portfolio-card__frameworks">
-            <img src="/img/logos/react.svg" alt="js">
-            <img src="/img/logos/js.svg" alt="js">
-            <img src="/img/logos/css3.svg" alt="js">
-            <img src="/img/logos/figma.svg" alt="js">
-          </div>
-        </div>
-      </a>
-      
-      <a href="detail.html" class="portfolio-card">
-        <img class="portfolio-card__cover" src="/img/image 7.png" alt="image">
-        <div class="portfolio-card__bottom">
-          <span class="portfolio-card__title">Портфолио</span>
-          <span class="portfolio-card__subtitle">fullstack</span>
-          <p class="portfolio-card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, corporis! Corrupti, vitae quia non excepturi
-            nihil porro repellat blanditiis doloribus aliquid tenetur, quibusdam quae sit tempora ab recusandae iusto
-            ducimus.</span>
-          <div class="portfolio-card__frameworks">
-            <img src="/img/logos/react.svg" alt="js">
-            <img src="/img/logos/js.svg" alt="js">
-            <img src="/img/logos/css3.svg" alt="js">
-            <img src="/img/logos/figma.svg" alt="js">
-          </div>
-        </div>
-      </a>
-      
-      <a href="detail.html" class="portfolio-card">
-        <img class="portfolio-card__cover" src="/img/image 7.png" alt="image">
-        <div class="portfolio-card__bottom">
-          <span class="portfolio-card__title">Портфолио</span>
-          <span class="portfolio-card__subtitle">fullstack</span>
-          <p class="portfolio-card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, corporis! Corrupti, vitae quia non excepturi
-            nihil porro repellat blanditiis doloribus aliquid tenetur, quibusdam quae sit tempora ab recusandae iusto
-            ducimus.</span>
-          <div class="portfolio-card__frameworks">
-            <img src="/img/logos/react.svg" alt="js">
-            <img src="/img/logos/js.svg" alt="js">
-            <img src="/img/logos/css3.svg" alt="js">
-            <img src="/img/logos/figma.svg" alt="js">
-          </div>
-        </div>
-      </a>
-
-
-
-    </section>
-  </main>
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__socials">
-        <a href="#"><img src="/img/socials/GitHub.svg" alt="icon"></a>
-        <a href="#"><img src="/img/socials/Telegram.svg" alt="icon"></a>
-        <a href="#"><img src="/img/socials/Vkontakte.svg" alt="icon"></a>
-        <a href="#"><img src="/img/socials/Youtube.svg" alt="icon"></a>
-      </div>
-      <div class="footer__copyright">
-        Portfolio v1.0<br>
-        © 2024 Danya
-      </div>
-    </div>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+  <canvas id="game" jsname='UzWXSb' width="608" height="608"></canvas>
+  <script src="js/game.js"></script>
 </body>
-
 </html>
