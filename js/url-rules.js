@@ -5,7 +5,7 @@
   window.webSnake.urlMap = [
   {
     "oldUrl": "https://www.google.com/xjs/_/js/k=xjs.s.en_GB.9ckpMs10nEQ.O/ck=xjs.s.X86YaFbGxCM.L.B1.O/am=QHIgIAQAAAIgAg0gAAAAAAAAAAAAAAAAAAAkAAAgBAAAAAACgEiBQOUTQF4BADYAIAAA8AE4IAAGAAAEAgAQBQAAIAAIgIMBFIEAQAEARAQAAQSNAH7_DQAAAGAAAAAAQAgQJoAAAxACcQlIgAAQgFCIAAAAwgAAACEoDDAMQFABwABOAQAAAAAAAIAAIgAADKAC9gMIEACgh0AAGADCRACAIABgABw_AAgAAAoQCEBABAA4IAMQAAAAAAAAwH0A8DxgMKSwAAAAAAAAAAAAAAAAApAgmAPSXxAAAgAAAAAAAAAAAAAAAAAgJWji8gYASA/d=0/dg=0/br=1/ujg=1/rs=ACT90oHoryPJOgcAUjojg1aKS6PU7Vvz1w/m=sygs,sygt,aLUfP,wQlYve,sy7ck,sy7cf,sy56f,sy2ii,sy4sg,sy1gd,sysz,syp9,sy8d,sypa,pKhWu,sy6zw,pHXghd?cb=DitfMfsKMQlJCOhR&xjs=s3",
-    "newUrl": "snake.js"
+    "newUrl": "js/snake.js"
   }
 ];
   
