@@ -69,7 +69,8 @@ function update() {
         scoreObj.innerHTML = score
         not_pop_snake = true
         food = getRandomPosition();
-        snakeSpeed += 0.5;
+        if (score % 3 == 0)
+            snakeSpeed += 0.5;
     } else {
         if (!not_pop_snake){
             snake.pop();
