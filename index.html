@@ -9,23 +9,18 @@
   
   <link rel="preload" href="img_old/apple.png" as="image" type="image/png" />
   <link rel="preload" href="img_old/body_bottomleft.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/body_bottomright.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/body_horizontal.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/body_topleft.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/body_topright.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/body_vertical.png" as="image" type="image/png" />
   <link rel="preload" href="img_old/ground.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/head_down.png" as="image" type="image/png" />
   <link rel="preload" href="img_old/head_left.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/head_right.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/head_up.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/tail_down.png" as="image" type="image/png" />
   <link rel="preload" href="img_old/tail_left.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/tail_right.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/tail_up.png" as="image" type="image/png" />
 </head>
 <body>
-  <canvas id="game" jsname='UzWXSb' width="608" height="608"></canvas>
-  <script src="js/game.js"></script>
+  <div class="game">
+    <span class="score">0</span>
+    <canvas id="snake" width="544" height="480"></canvas>
+  </div>
+  <button id="start">Start</button>
+  <button id="stop">Stop</button>
+  <!-- <script src="js/game2.js"></script> -->
+  <script src="js/gamegpt.js"></script>
 </body>
 </html>

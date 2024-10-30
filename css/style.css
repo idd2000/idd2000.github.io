@@ -2,3 +2,24 @@ canvas {
   display: block;
   margin: 0 auto;
 }
+
+.game{
+  position: relative;
+  background-image: url(../img_old/ground.png);
+  width: 608px;
+  height: 608px;
+}
+.game #snake{
+  position: absolute;
+  top: 95px;
+  left: 32px;
+}
+.game .score{
+  position: absolute;
+  top: 23px;
+  left: 72px;
+  font-size: 28px;
+  color: white;
+  font-family: sans-serif;
+  font-weight: 400;
+}
