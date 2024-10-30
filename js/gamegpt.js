@@ -141,7 +141,7 @@ function draw() {
 }
 
 function resetGame() {
-    snake = [{ x: 10, y: 10 }];
+    snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
     direction = { x: 1, y: 0 };
     food = getRandomPosition();
     snakeSpeed = startSnakeSpeed;
