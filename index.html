@@ -7,19 +7,17 @@
   <title>Игра на JavaScript</title>
   <link rel="stylesheet" href="css/style.css">
   
-  <link rel="preload" href="img_old/apple.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/body_bottomleft.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/ground.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/head_left.png" as="image" type="image/png" />
-  <link rel="preload" href="img_old/tail_left.png" as="image" type="image/png" />
+  <link rel="preload" href="img/apple.png" as="image" type="image/png" />
+  <link rel="preload" href="img/body_bottomleft.png" as="image" type="image/png" />
+  <link rel="preload" href="img/ground.png" as="image" type="image/png" />
+  <link rel="preload" href="img/head_left.png" as="image" type="image/png" />
+  <link rel="preload" href="img/tail_left.png" as="image" type="image/png" />
 </head>
 <body>
   <div class="game">
-    <span class="score">0</span>
+    <span id="score">0</span>
     <canvas id="snake" width="544" height="480"></canvas>
   </div>
-  <button id="start">Start</button>
-  <button id="stop">Stop</button>
   <!-- <script src="js/game2.js"></script> -->
   <script src="js/gamegpt.js"></script>
 </body>

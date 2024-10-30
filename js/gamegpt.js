@@ -3,9 +3,10 @@ const canvas = document.getElementById("snake");
 const ctx = canvas.getContext("2d");
 
 let score = 0;
+let scoreObj = document.querySelector('#score');
 
 let foodImage = new Image();
-foodImage.src = 'img_old/apple.png';
+foodImage.src = 'img/apple.png';
 
 const gridSize = 32;
 const canvasWidth = canvas.width / gridSize;
@@ -23,16 +24,23 @@ const bodyTexture = new Image();
 const tailTexture = new Image();
 const turnTexture = new Image();
 
-headTexture.src = "img_old/head_left.png";
-bodyTexture.src = "img_old/body_horizontal.png";
-tailTexture.src = "img_old/tail_left.png";
-turnTexture.src = "img_old/body_bottomleft.png";
+headTexture.src = "img/head_left.png";
+bodyTexture.src = "img/body_horizontal.png";
+tailTexture.src = "img/tail_left.png";
+turnTexture.src = "img/body_bottomleft.png";
 
 function getRandomPosition() {
-    return {
+    let pos = {
         x: Math.floor(Math.random() * canvasWidth),
         y: Math.floor(Math.random() * canvasHeight)
-    };
+    }
+    while (snake.filter(el=>{return el.x == pos.x && el.y == pos.y}).length != 0) {
+        pos = {
+            x: Math.floor(Math.random() * canvasWidth),
+            y: Math.floor(Math.random() * canvasHeight)
+        }
+    }
+    return pos;
 }
 
 function main(currentTime) {
@@ -57,6 +65,8 @@ function update() {
     if (head.y >= canvasHeight) head.y = 0;
 
     if (head.x === food.x && head.y === food.y) {
+        score += 1;
+        scoreObj.innerHTML = score
         not_pop_snake = true
         food = getRandomPosition();
         snakeSpeed += 0.5;
@@ -111,6 +121,8 @@ function resetGame() {
     direction = { x: 1, y: 0 };
     food = getRandomPosition();
     snakeSpeed = startSnakeSpeed;
+    score = 0;
+    scoreObj.innerHTML = score
 }
 
 function changeDirection(event) {

@@ -194,7 +194,7 @@ function drawSnakeTail(){
 
 }
 function get_image(image){
-  return `img_old/${image}.png`
+  return `img/${image}.png`
 }
 
 let image_body = get_image('body_horizontal')

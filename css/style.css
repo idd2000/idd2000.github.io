@@ -5,7 +5,7 @@ canvas {
 
 .game{
   position: relative;
-  background-image: url(../img_old/ground.png);
+  background-image: url(../img/ground.png);
   width: 608px;
   height: 608px;
 }
@@ -14,7 +14,7 @@ canvas {
   top: 95px;
   left: 32px;
 }
-.game .score{
+.game #score{
   position: absolute;
   top: 23px;
   left: 72px;

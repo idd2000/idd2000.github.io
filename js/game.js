@@ -2,10 +2,10 @@ const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
 const ground = new Image();
-ground.src = "img_old/ground.png";
+ground.src = "img/ground.png";
 
 const foodImg = new Image();
-foodImg.src = "img_old/apple.png";
+foodImg.src = "img/apple.png";
 
 let box = 32;
 
@@ -86,7 +86,7 @@ function drawGame() {
 
     if (i==0){
       let img = new Image()
-      img.src = `img_old/head_${olddir}.png`
+      img.src = `img/head_${olddir}.png`
       ctx.drawImage(img, snake[i].x, snake[i].y);
       olddir = dir;
     } else if (i == snake.length - 1) {
@@ -114,7 +114,7 @@ function drawGame() {
         }
       }
       let img = new Image()
-      img.src = `img_old/tail_${d}.png`
+      img.src = `img/tail_${d}.png`
       ctx.drawImage(img, snake[i].x, snake[i].y);
     }else{
       let image_name;
@@ -123,19 +123,19 @@ function drawGame() {
         if (
           ((17 * box == snake[i-1].x && 3 * box == snake[i-1].y && snake[i+1].y == 17 * box && snake[i+1].x == box) || (17 * box == snake[i+1].x && 3 * box == snake[i+1].y && snake[i+1].y == 17 * box && snake[i-1].x == box))
         ){
-          image_name = 'img_old/body_topleft.png'
+          image_name = 'img/body_topleft.png'
         }else if (
           ((box == snake[i-1].x && 3 * box == snake[i-1].y && snake[i+1].y == 17 * box && snake[i+1].x == 17 * box) || (box == snake[i+1].x && 3 * box == snake[i+1].y && snake[i-1].y == 17 * box && snake[i-1].x == 17 * box) && snake[i].x == 17 * box && snake[i].y == 3 * box)
         ){
-          image_name = 'img_old/body_topright.png'
+          image_name = 'img/body_topright.png'
         }else if (
           ((17 * box == snake[i-1].x && 17 * box == snake[i-1].y && snake[i+1].y == 3 * box && snake[i+1].x == box) || (17 * box == snake[i+1].x && 17 * box == snake[i+1].y && snake[i-1].y == 3 * box && snake[i-1].x == box) && snake[i].x == box && snake[i].y == 17 * box)
         ){
-          image_name = 'img_old/body_bottomleft.png'
+          image_name = 'img/body_bottomleft.png'
         }else if (
           ((box == snake[i-1].x && 17 * box == snake[i-1].y && snake[i+1].y == 3 * box && snake[i+1].x == 17 * box) || (box == snake[i+1].x && 17 * box == snake[i+1].y && snake[i-1].y == 3 * box && snake[i-1].x == 17 * box) && snake[i].x == 17 * box && snake[i].y == 17 * box)
         ){
-          image_name = 'img_old/body_bottomright.png'
+          image_name = 'img/body_bottomright.png'
         }
       }
       // Пересечение стены
@@ -144,32 +144,32 @@ function drawGame() {
           (((box == snake[i-1].x && snake[i+1].x == 16 * box) || (box == snake[i+1].x  && snake[i-1].x == 16 * box)) && snake[i].x == 17 * box) || 
           (((17 * box == snake[i-1].x && snake[i+1].x == 2 * box) || (17 * box == snake[i+1].x && snake[i-1].x == 2 * box)) && snake[i].x == box)
         ){
-          image_name = 'img_old/body_horizontal.png'
+          image_name = 'img/body_horizontal.png'
         }else if (
           (((3 * box == snake[i-1].y && snake[i+1].y == 16 * box) || (3 * box == snake[i+1].y  && snake[i-1].y == 16 * box)) && snake[i].y == 17 * box) || 
           (((17 * box == snake[i-1].y && snake[i+1].y == 4 * box) || (17 * box == snake[i+1].y && snake[i-1].y == 4 * box)) && snake[i].y == 3 * box)
         ){
-          image_name = 'img_old/body_vertical.png'
+          image_name = 'img/body_vertical.png'
         }else if (
           (((17 * box == snake[i-1].x && snake[i+1].y == snake[i].y - box) || (17 * box == snake[i+1].x && snake[i-1].y == snake[i].y - box) && snake[i].x == box)) ||
           (((17 * box == snake[i-1].y && snake[i+1].x == snake[i].x - box) || (17 * box == snake[i+1].y && snake[i-1].x == snake[i].x - box) && snake[i].y == 3 * box))
         ){
-          image_name = 'img_old/body_topleft.png'
+          image_name = 'img/body_topleft.png'
         }else if (
           (((box == snake[i-1].x && snake[i+1].y == snake[i].y - box) || (box == snake[i+1].x && snake[i-1].y == snake[i].y - box) && snake[i].x == 17 * box)) ||
           (((17 * box == snake[i-1].y && snake[i+1].x == snake[i].x + box) || (17 * box == snake[i+1].y && snake[i-1].x == snake[i].x + box) && snake[i].y == 3 * box))
         ){
-          image_name = 'img_old/body_topright.png'
+          image_name = 'img/body_topright.png'
         }else if (
           (((17 * box == snake[i-1].x && snake[i+1].y == snake[i].y + box) || (17 * box == snake[i+1].x && snake[i-1].y == snake[i].y + box) && snake[i].x == box)) ||
           (((3 * box == snake[i-1].y && snake[i+1].x == snake[i].x - box) || (3 * box == snake[i+1].y && snake[i-1].x == snake[i].x - box) && snake[i].y == 17 * box))
         ){
-          image_name = 'img_old/body_bottomleft.png'
+          image_name = 'img/body_bottomleft.png'
         }else if (
           (((box == snake[i-1].x && snake[i+1].y == snake[i].y + box) || (box == snake[i+1].x && snake[i-1].y == snake[i].y + box) && snake[i].x == 17 * box)) ||
           (((3 * box == snake[i-1].y && snake[i+1].x == snake[i].x + box) || (3 * box == snake[i+1].y && snake[i-1].x == snake[i].x + box) && snake[i].y == 17 * box))
         ){
-          image_name = 'img_old/body_bottomright.png'
+          image_name = 'img/body_bottomright.png'
         }
       }
       // передвижение по полю
@@ -177,32 +177,32 @@ function drawGame() {
         (snake[i].x - box == snake[i-1].x && snake[i].x + box == snake[i+1].x) || 
         (snake[i].x + box == snake[i-1].x && snake[i].x - box == snake[i+1].x)
       ){
-        image_name = 'img_old/body_horizontal.png'
+        image_name = 'img/body_horizontal.png'
       }else if (
         (snake[i].y - box == snake[i-1].y && snake[i].y + box == snake[i+1].y) || 
         (snake[i].y + box == snake[i-1].y && snake[i].y - box == snake[i+1].y)
       ){
-        image_name = 'img_old/body_vertical.png'
+        image_name = 'img/body_vertical.png'
       }else if (
         (snake[i].x - box == snake[i-1].x && snake[i].y - box == snake[i+1].y) || 
         (snake[i].x - box == snake[i+1].x && snake[i].y - box == snake[i-1].y)
       ){
-        image_name = 'img_old/body_topleft.png'
+        image_name = 'img/body_topleft.png'
       }else if (
         (snake[i].x + box == snake[i-1].x && snake[i].y - box == snake[i+1].y) || 
         (snake[i].x + box == snake[i+1].x && snake[i].y - box == snake[i-1].y)
       ){
-        image_name = 'img_old/body_topright.png'
+        image_name = 'img/body_topright.png'
       }else if (
         (snake[i].x - box == snake[i-1].x && snake[i].y + box == snake[i+1].y) || 
         (snake[i].x - box == snake[i+1].x && snake[i].y + box == snake[i-1].y)
       ){
-        image_name = 'img_old/body_bottomleft.png'
+        image_name = 'img/body_bottomleft.png'
       }else if (
         (snake[i].x + box == snake[i-1].x && snake[i].y + box == snake[i+1].y) || 
         (snake[i].x + box == snake[i+1].x && snake[i].y + box == snake[i-1].y)
       ){
-        image_name = 'img_old/body_bottomright.png'
+        image_name = 'img/body_bottomright.png'
       }
       if (!image_name){
         console.log([snake[i-1], snake[i], snake[i+1]])
