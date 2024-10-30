@@ -22,12 +22,20 @@ let lastRenderTime = 0;
 const headTexture = new Image();
 const bodyTexture = new Image();
 const tailTexture = new Image();
-const turnTexture = new Image();
+const turnBottomLeftTexture = new Image();
+const turnBottomRightTexture = new Image();
+const turnTopLeftTexture = new Image();
+const turnTopRightTexture = new Image();
 
 headTexture.src = "img/head_left.png";
 bodyTexture.src = "img/body_horizontal.png";
 tailTexture.src = "img/tail_left.png";
-turnTexture.src = "img/body_bottomleft.png";
+turnBottomLeftTexture.src = "img/body_bottomleft.png";
+turnBottomRightTexture.src = "img/body_bottomright.png";
+turnTopLeftTexture.src = "img/body_topleft.png";
+turnTopRightTexture.src = "img/body_topright.png";
+
+let lastTexture;
 
 function getRandomPosition() {
     let pos = {
@@ -85,6 +93,7 @@ function update() {
     }
 
     snake.unshift(head);
+    lock_changeDir = false;
 }
 
 function draw() {
@@ -96,22 +105,36 @@ function draw() {
     // Рисуем сегменты змейки с поворотом
     snake.forEach((segment, index) => {
         let img, angle = 0;
-
-        if (index === 0) { // Голова
+        let flip = 1
+        if (index === 0) { 
+            // Голова
             img = headTexture;
             angle = getRotationAngle(segment, snake[1]);
-        } else if (index === snake.length - 1) { // Хвост
+            if (angle == Math.PI){
+                angle = 0;
+                flip = -1;
+            }
+        } else if (index === snake.length - 1) { 
+            // Хвост
             img = tailTexture;
             angle = getRotationAngle(snake[index - 1], segment);
-        } else { // Тело или поворот
-            const isTurn = checkIfTurn(snake[index - 1], snake[index + 1]);
-            img = isTurn ? turnTexture : bodyTexture;
-            angle = isTurn ? getTurnAngle(snake[index - 1], segment, snake[index + 1]) : getRotationAngle(snake[index - 1], segment);
+        } else if (checkIfTurn(snake[index - 1], snake[index + 1])){ 
+            // поворот
+            img = getTurnTexture(snake[index - 1], segment, snake[index + 1]);
+            angle = 0;
+        }else{
+            // Тело
+            img = bodyTexture;
+            angle = getRotationAngle(snake[index - 1], segment);
         }
+
 
         ctx.save();
         ctx.translate(segment.x * gridSize + gridSize / 2, segment.y * gridSize + gridSize / 2);
         ctx.rotate(angle);
+        if (flip < 0) {
+            ctx.scale(-1, 1);
+        }
         ctx.drawImage(img, -gridSize / 2, -gridSize / 2, gridSize, gridSize);
         ctx.restore();
     });
@@ -126,14 +149,18 @@ function resetGame() {
     scoreObj.innerHTML = score
 }
 
+let lock_changeDir = false;
 function changeDirection(event) {
-    const key = event.key;
-    const { x, y } = direction;
-
-    if (key === "ArrowUp" && y === 0) direction = { x: 0, y: -1 };
-    if (key === "ArrowDown" && y === 0) direction = { x: 0, y: 1 };
-    if (key === "ArrowLeft" && x === 0) direction = { x: -1, y: 0 };
-    if (key === "ArrowRight" && x === 0) direction = { x: 1, y: 0 };
+    if (lock_changeDir == false){
+        const key = event.key;
+        const { x, y } = direction;
+    
+        if (key === "ArrowUp" && y === 0) direction = { x: 0, y: -1 };
+        if (key === "ArrowDown" && y === 0) direction = { x: 0, y: 1 };
+        if (key === "ArrowLeft" && x === 0) direction = { x: -1, y: 0 };
+        if (key === "ArrowRight" && x === 0) direction = { x: 1, y: 0 };
+        lock_changeDir = true;
+    }
 }
 
 function getRotationAngle(segment1, segment2) {
@@ -161,7 +188,8 @@ function getRotationAngle(segment1, segment2) {
 function checkIfTurn(prev, next) {
     return (prev.x !== next.x && prev.y !== next.y);
 }
-function getTurnAngle(prev, current, next) {
+
+function getTurnTexture(prev, current, next){
     // Рассчитываем разницы координат
     let dxPrev = current.x - prev.x;
     let dyPrev = current.y - prev.y;
@@ -174,15 +202,13 @@ function getTurnAngle(prev, current, next) {
 
     // Обработка перехода через границы для следующего сегмента
     if (Math.abs(dxNext) > 1) dxNext = -dxNext / Math.abs(dxNext); // Корректируем направление
-    if (Math.abs(dyNext) > 1) dyNext = -dyNext / Math.abs(dyNext); // Корректируем направление
-
+    if (Math.abs(dyNext) > 1) dyNext = -dyNext / Math.abs(dyNext); // Корректируем направление   
+    
     // Углы для поворотов
-    if (dyPrev === 1 && dxNext === -1 || dxPrev==1 && dyNext==-1) return Math.PI / 2;   // Поворот вверх-право
-    if (dyPrev === -1 && dxNext === -1 || dxPrev==1 && dyNext==1) return 0;               // Низ-право
-    if (dyPrev === 1 && dxNext === 1 || dxPrev==-1 && dyNext==-1) return Math.PI;       // Верх-лево
-    if (dyPrev === -1 && dxNext === 1 || dxPrev==-1 && dyNext==1) return -Math.PI / 2;   // Низ-лево
-
-    return 0;
+    if (dyPrev === 1 && dxNext === -1 || dxPrev==1 && dyNext==-1) return turnTopLeftTexture;   // Поворот вверх-право
+    if (dyPrev === -1 && dxNext === -1 || dxPrev==1 && dyNext==1) return turnBottomLeftTexture;               // Низ-право
+    if (dyPrev === 1 && dxNext === 1 || dxPrev==-1 && dyNext==-1) return turnTopRightTexture;       // Верх-лево
+    if (dyPrev === -1 && dxNext === 1 || dxPrev==-1 && dyNext==1) return turnBottomRightTexture;   // Низ-лево
 }
 
 window.addEventListener("keydown", changeDirection);
