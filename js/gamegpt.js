@@ -1,4 +1,3 @@
-
 const canvas = document.getElementById("snake");
 const ctx = canvas.getContext("2d");
 
@@ -20,34 +19,40 @@ let snakeSpeed = startSnakeSpeed;
 let lastRenderTime = 0;
 
 const headTexture = new Image();
-const bodyTexture = new Image();
-const tailTexture = new Image();
-const turnBottomLeftTexture = new Image();
-const turnBottomRightTexture = new Image();
-const turnTopLeftTexture = new Image();
-const turnTopRightTexture = new Image();
-
 headTexture.src = "img/head_left.png";
+const bodyTexture = new Image();
 bodyTexture.src = "img/body_horizontal.png";
+const tailTexture = new Image();
 tailTexture.src = "img/tail_left.png";
+const turnBottomLeftTexture = new Image();
 turnBottomLeftTexture.src = "img/body_bottomleft.png";
+const turnBottomRightTexture = new Image();
 turnBottomRightTexture.src = "img/body_bottomright.png";
+const turnTopLeftTexture = new Image();
 turnTopLeftTexture.src = "img/body_topleft.png";
+const turnTopRightTexture = new Image();
 turnTopRightTexture.src = "img/body_topright.png";
 
 let lastTexture;
+let not_pop_snake = false;
+let lock_changeDir = false;
+
+let leftButton = document.getElementById("button_left")
+let upButton = document.getElementById("button_up")
+let downButton = document.getElementById("button_down")
+let rightButton = document.getElementById("button_right")
+
+// const snakeAI = new SnakeAI({ width: canvasWidth, height: canvasHeight }, snake);
 
 function getRandomPosition() {
-    let pos = {
-        x: Math.floor(Math.random() * canvasWidth),
-        y: Math.floor(Math.random() * canvasHeight)
-    }
-    while (snake.filter(el=>{return el.x == pos.x && el.y == pos.y}).length != 0) {
-        pos = {
-            x: Math.floor(Math.random() * canvasWidth),
-            y: Math.floor(Math.random() * canvasHeight)
+    let positions = [];
+    for (let x = 0; x < canvasHeight; x++) {
+        for (let y = 0; y < canvasWidth; y++) {
+            if (snake.filter(el=>x == el.x && y == el.y).length == 0)
+                positions.push({x: x, y: y})
         }
     }
+    let pos = positions[Math.floor(Math.random() * (positions.length - 1))]
     return pos;
 }
 
@@ -60,8 +65,13 @@ function main(currentTime) {
     update();
     draw();
 }
-let not_pop_snake = false;
+
 function update() {
+    // const nextMove = snakeAI.findPathToFood(food);
+    // if (nextMove) {
+    //     direction = nextMove;
+    // }
+
     const head = { ...snake[0] };
     head.x += direction.x;
     head.y += direction.y;
@@ -149,7 +159,6 @@ function resetGame() {
     scoreObj.innerHTML = score
 }
 
-let lock_changeDir = false;
 function changeDirection(event) {
     if (lock_changeDir == false){
         const key = event.key;
@@ -212,4 +221,11 @@ function getTurnTexture(prev, current, next){
 }
 
 window.addEventListener("keydown", changeDirection);
+
+leftButton.addEventListener("click", ()=>{const { x, y } = direction;if (lock_changeDir == false && x === 0){direction = { x: -1, y: 0 };lock_changeDir = true;}});
+upButton.addEventListener("click", ()=>{const { x, y } = direction;if (lock_changeDir == false && y === 0){direction = { x: 0, y: -1 };lock_changeDir = true;}});
+downButton.addEventListener("click", ()=>{const { x, y } = direction;if (lock_changeDir == false && y === 0){direction = { x: 0, y: 1 };lock_changeDir = true;}});
+rightButton.addEventListener("click", ()=>{const { x, y } = direction;if (lock_changeDir == false && x === 0){direction = { x: 1, y: 0 };lock_changeDir = true;}});
+
+
 window.requestAnimationFrame(main);
