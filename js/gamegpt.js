@@ -92,7 +92,7 @@ function spawnRocks(){
 let removerCandy;
 function update() {
     if (autopilot){
-        const nextMove = snakeAI.findPathToFood(food, candy);
+        const nextMove = snakeAI.findSafePath(food, candy);
         if (nextMove) {
             direction = nextMove;
         }
