@@ -58,10 +58,16 @@ function getRandomPosition() {
     let positions = [];
     for (let x = 0; x < canvasWidth; x++) {
         for (let y = 0; y < canvasHeight; y++) {
-            if (snake.filter(el=>x == el.x && y == el.y).length == 0 && 
-                rocks.filter(el=>x == el.x && y == el.y).length == 0
-            )
+            let is_add = snake.filter(el=>x == el.x && y == el.y).length == 0 && rocks.filter(el=>x == el.x && y == el.y).length == 0
+            if (candy && candy.x == x && candy.y == y){
+                is_add = false
+            }
+            if (food && food.x == x && food.y == y){
+                is_add = false
+            }
+            if (is_add){
                 positions.push({x: x, y: y})
+            }
         }
     }
     let pos = positions[Math.floor(Math.random() * (positions.length - 1))]
