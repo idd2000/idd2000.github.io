@@ -7,13 +7,21 @@ let scoreObj = document.querySelector('#score');
 let foodImage = new Image();
 foodImage.src = 'img/apple.png';
 
+let rocks = []
+let rockImage = new Image();
+rockImage.src = 'img/rock.png';
+let candy=null;
+let candyImage = new Image();
+candyImage.src = 'img/candy.png';
+
 const gridSize = 32;
 const canvasWidth = canvas.width / gridSize;
 const canvasHeight = canvas.height / gridSize;
 
 let snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
 let direction = { x: 1, y: 0 };
-let food = getRandomPosition();
+let food = null;
+food = getRandomPosition();
 let startSnakeSpeed = 10;
 let snakeSpeed = startSnakeSpeed;
 let lastRenderTime = 0;
@@ -34,7 +42,7 @@ const turnTopRightTexture = new Image();
 turnTopRightTexture.src = "img/body_topright.png";
 
 let lastTexture;
-let not_pop_snake = false;
+let not_pop_snake = 0;
 let lock_changeDir = false;
 
 let leftButton = document.getElementById("button_left")
@@ -42,13 +50,15 @@ let upButton = document.getElementById("button_up")
 let downButton = document.getElementById("button_down")
 let rightButton = document.getElementById("button_right")
 
-// const snakeAI = new SnakeAI({ width: canvasWidth, height: canvasHeight }, snake);
+const snakeAI = new SnakeAI({ width: canvasWidth, height: canvasHeight }, snake, rocks);
 
 function getRandomPosition() {
     let positions = [];
-    for (let x = 0; x < canvasHeight; x++) {
-        for (let y = 0; y < canvasWidth; y++) {
-            if (snake.filter(el=>x == el.x && y == el.y).length == 0)
+    for (let x = 0; x < canvasWidth; x++) {
+        for (let y = 0; y < canvasHeight; y++) {
+            if (snake.filter(el=>x == el.x && y == el.y).length == 0 && 
+                rocks.filter(el=>x == el.x && y == el.y).length == 0
+            )
                 positions.push({x: x, y: y})
         }
     }
@@ -66,8 +76,20 @@ function main(currentTime) {
     draw();
 }
 
+function spawnRocks(){
+    let countrocks = Math.trunc(score / 5) * 3
+    if (rocks.length < countrocks){
+        let countIterations = countrocks - rocks.length;
+        for (let i = 0; i < countIterations; i++) {
+            rocks.push(getRandomPosition())
+        }
+    }
+    snakeAI.rocks = rocks
+}
+
+let removerCandy;
 function update() {
-    // const nextMove = snakeAI.findPathToFood(food);
+    // const nextMove = snakeAI.findPathToFood(food, candy);
     // if (nextMove) {
     //     direction = nextMove;
     // }
@@ -81,29 +103,45 @@ function update() {
     if (head.x >= canvasWidth) head.x = 0;
     if (head.y < 0) head.y = canvasHeight - 1;
     if (head.y >= canvasHeight) head.y = 0;
-
+    let chance = Math.random();
+    if (candy==null && chance < 0.005){
+        candy = candy=getRandomPosition();
+        removerCandy = setTimeout(()=>{candy=null;}, 5000)
+    }
+    if (candy && head.x === candy.x && head.y === candy.y) {
+        if (removerCandy)
+            clearTimeout(removerCandy)
+        candy = null
+        not_pop_snake = 3
+        score += 2;
+        scoreObj.innerHTML = score
+        snakeSpeed = startSnakeSpeed + Math.trunc(score / 3) * 0.5;
+        spawnRocks();
+    }
     if (head.x === food.x && head.y === food.y) {
         score += 1;
         scoreObj.innerHTML = score
-        not_pop_snake = true
+        not_pop_snake = 1
         food = getRandomPosition();
-        if (score % 3 == 0)
-            snakeSpeed += 0.5;
+        snakeSpeed = startSnakeSpeed + Math.trunc(score / 3) * 0.5;
+        spawnRocks();
     } else {
-        if (!not_pop_snake){
+        if (not_pop_snake == 0){
             snake.pop();
         }else{
-            not_pop_snake = false
+            not_pop_snake = not_pop_snake - 1
         }
     }
 
     if (head.x < 0 || head.x >= canvasWidth || head.y < 0 || head.y >= canvasHeight || 
+        rocks.some((segment, index) => segment.x === head.x && segment.y === head.y) || 
         snake.some((segment, index) => index > 0 && segment.x === head.x && segment.y === head.y)) {
         resetGame();
     }
 
     snake.unshift(head);
     lock_changeDir = false;
+    snakeAI.snake = snake
 }
 
 function draw() {
@@ -111,6 +149,13 @@ function draw() {
 
     // Рисуем еду
     ctx.drawImage(foodImage, food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+    if (candy)
+        ctx.drawImage(candyImage, candy.x * gridSize, candy.y * gridSize, gridSize, gridSize);
+
+    rocks.forEach(rock=>{
+        // Рисуем камни
+        ctx.drawImage(rockImage, rock.x * gridSize, rock.y * gridSize, gridSize, gridSize);
+    })
 
     // Рисуем сегменты змейки с поворотом
     snake.forEach((segment, index) => {
@@ -151,6 +196,9 @@ function draw() {
 }
 
 function resetGame() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    candy = null;
+    rocks = []
     snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
     direction = { x: 1, y: 0 };
     food = getRandomPosition();
