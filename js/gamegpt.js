@@ -1,5 +1,7 @@
 const canvas = document.getElementById("snake");
 const ctx = canvas.getContext("2d");
+const difficulty_select = document.getElementById("difficulty");
+let difficulty = Number(difficulty_select.value);
 
 let score = 0;
 let scoreObj = document.querySelector('#score');
@@ -18,11 +20,11 @@ const gridSize = 32;
 const canvasWidth = canvas.width / gridSize;
 const canvasHeight = canvas.height / gridSize;
 
-let snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
+let snake = [{ x: 10, y: 10 }];
 let direction = { x: 1, y: 0 };
 let food = null;
 food = getRandomPosition();
-let startSnakeSpeed = 10;
+let startSnakeSpeed = 4 + difficulty * 2;
 let snakeSpeed = startSnakeSpeed;
 let lastRenderTime = 0;
 
@@ -42,7 +44,7 @@ const turnTopRightTexture = new Image();
 turnTopRightTexture.src = "img/body_topright.png";
 
 let lastTexture;
-let not_pop_snake = 0;
+let not_pop_snake = 3;
 let lock_changeDir = false;
 
 const leftButton = document.getElementById("button_left")
@@ -79,13 +81,13 @@ function main(currentTime) {
     const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
     if (secondsSinceLastRender < 1 / snakeSpeed) return;
     lastRenderTime = currentTime;
-
+    if (direction.x != 0 || direction.y != 0)
     update();
     draw();
 }
 
 function spawnRocks(){
-    let countrocks = Math.trunc(score / 5) * 3
+    let countrocks = Math.trunc(score / 5) * difficulty
     if (rocks.length < countrocks){
         let countIterations = countrocks - rocks.length;
         for (let i = 0; i < countIterations; i++) {
@@ -125,7 +127,7 @@ function update() {
         not_pop_snake = 3
         score += 2;
         scoreObj.innerHTML = score
-        snakeSpeed = startSnakeSpeed + Math.trunc(score / 3) * 0.5;
+        snakeSpeed = startSnakeSpeed + Math.trunc(score / (6 - difficulty)) * 0.5;
         spawnRocks();
     }
     if (head.x === food.x && head.y === food.y) {
@@ -133,7 +135,7 @@ function update() {
         scoreObj.innerHTML = score
         not_pop_snake = 1
         food = getRandomPosition();
-        snakeSpeed = startSnakeSpeed + Math.trunc(score / 3) * 0.5;
+        snakeSpeed = startSnakeSpeed + Math.trunc(score / (6 - difficulty)) * 0.5;
         spawnRocks();
     } else {
         if (not_pop_snake == 0){
@@ -209,8 +211,9 @@ function resetGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     candy = null;
     rocks = []
-    snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
+    snake = [{ x: 10, y: 10 }];
     direction = { x: 1, y: 0 };
+    not_pop_snake = 3
     food = getRandomPosition();
     snakeSpeed = startSnakeSpeed;
     score = 0;
@@ -286,4 +289,5 @@ downButton.addEventListener("click", ()=>{if (!autopilot){const { x, y } = direc
 rightButton.addEventListener("click", ()=>{if (!autopilot){const { x, y } = direction;if (lock_changeDir == false && x === 0){direction = { x: 1, y: 0 };lock_changeDir = true;}}});
 
 autopilot_button.addEventListener('click', ()=>{autopilot = !autopilot; if (autopilot){autopilot_button.innerHTML = 'Выключить автопилот'}else{autopilot_button.innerHTML = 'Включить автопилот'}})
+difficulty_select.addEventListener('onchange', ()=>{difficulty = Number(difficulty_select.value);})
 window.requestAnimationFrame(main);
