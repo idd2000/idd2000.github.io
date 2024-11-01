@@ -24,8 +24,7 @@ let snake = [{ x: 10, y: 10 }];
 let direction = { x: 1, y: 0 };
 let food = null;
 food = getRandomPosition();
-let startSnakeSpeed = 4 + difficulty * 2;
-let snakeSpeed = startSnakeSpeed;
+let snakeSpeed = ()=>{return (4 + difficulty * 2) + Math.trunc(score / (6 - difficulty)) * 0.5};
 let lastRenderTime = 0;
 
 const headTexture = new Image();
@@ -79,7 +78,7 @@ function getRandomPosition() {
 function main(currentTime) {
     window.requestAnimationFrame(main);
     const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
-    if (secondsSinceLastRender < 1 / snakeSpeed) return;
+    if (secondsSinceLastRender < 1 / snakeSpeed()) return;
     lastRenderTime = currentTime;
     if (direction.x != 0 || direction.y != 0)
     update();
@@ -127,7 +126,6 @@ function update() {
         not_pop_snake = 3
         score += 2;
         scoreObj.innerHTML = score
-        snakeSpeed = startSnakeSpeed + Math.trunc(score / (6 - difficulty)) * 0.5;
         spawnRocks();
     }
     if (head.x === food.x && head.y === food.y) {
@@ -135,7 +133,6 @@ function update() {
         scoreObj.innerHTML = score
         not_pop_snake = 1
         food = getRandomPosition();
-        snakeSpeed = startSnakeSpeed + Math.trunc(score / (6 - difficulty)) * 0.5;
         spawnRocks();
     } else {
         if (not_pop_snake == 0){
@@ -215,7 +212,6 @@ function resetGame() {
     direction = { x: 1, y: 0 };
     not_pop_snake = 3
     food = getRandomPosition();
-    snakeSpeed = startSnakeSpeed;
     score = 0;
     scoreObj.innerHTML = score
 }
@@ -289,5 +285,5 @@ downButton.addEventListener("click", ()=>{if (!autopilot){const { x, y } = direc
 rightButton.addEventListener("click", ()=>{if (!autopilot){const { x, y } = direction;if (lock_changeDir == false && x === 0){direction = { x: 1, y: 0 };lock_changeDir = true;}}});
 
 autopilot_button.addEventListener('click', ()=>{autopilot = !autopilot; if (autopilot){autopilot_button.innerHTML = 'Выключить автопилот'}else{autopilot_button.innerHTML = 'Включить автопилот'}})
-difficulty_select.addEventListener('onchange', ()=>{difficulty = Number(difficulty_select.value);})
+difficulty_select.addEventListener('change', (e)=>{console.log(e.target.value);difficulty = Number(e.target.value);})
 window.requestAnimationFrame(main);
