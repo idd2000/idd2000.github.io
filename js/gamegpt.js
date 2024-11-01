@@ -45,10 +45,12 @@ let lastTexture;
 let not_pop_snake = 0;
 let lock_changeDir = false;
 
-let leftButton = document.getElementById("button_left")
-let upButton = document.getElementById("button_up")
-let downButton = document.getElementById("button_down")
-let rightButton = document.getElementById("button_right")
+const leftButton = document.getElementById("button_left")
+const upButton = document.getElementById("button_up")
+const downButton = document.getElementById("button_down")
+const rightButton = document.getElementById("button_right")
+const autopilot_button = document.getElementById("autopilot_button");
+let autopilot = false;
 
 const snakeAI = new SnakeAI({ width: canvasWidth, height: canvasHeight }, snake, rocks);
 
@@ -89,10 +91,12 @@ function spawnRocks(){
 
 let removerCandy;
 function update() {
-    // const nextMove = snakeAI.findPathToFood(food, candy);
-    // if (nextMove) {
-    //     direction = nextMove;
-    // }
+    if (autopilot){
+        const nextMove = snakeAI.findPathToFood(food, candy);
+        if (nextMove) {
+            direction = nextMove;
+        }
+    }
 
     const head = { ...snake[0] };
     head.x += direction.x;
@@ -208,7 +212,7 @@ function resetGame() {
 }
 
 function changeDirection(event) {
-    if (lock_changeDir == false){
+    if (lock_changeDir == false && !autopilot){
         const key = event.key;
         const { x, y } = direction;
     
@@ -270,10 +274,10 @@ function getTurnTexture(prev, current, next){
 
 window.addEventListener("keydown", changeDirection);
 
-leftButton.addEventListener("click", ()=>{const { x, y } = direction;if (lock_changeDir == false && x === 0){direction = { x: -1, y: 0 };lock_changeDir = true;}});
-upButton.addEventListener("click", ()=>{const { x, y } = direction;if (lock_changeDir == false && y === 0){direction = { x: 0, y: -1 };lock_changeDir = true;}});
-downButton.addEventListener("click", ()=>{const { x, y } = direction;if (lock_changeDir == false && y === 0){direction = { x: 0, y: 1 };lock_changeDir = true;}});
-rightButton.addEventListener("click", ()=>{const { x, y } = direction;if (lock_changeDir == false && x === 0){direction = { x: 1, y: 0 };lock_changeDir = true;}});
+leftButton.addEventListener("click", ()=>{if (!autopilot){const { x, y } = direction;if (lock_changeDir == false && x === 0){direction = { x: -1, y: 0 };lock_changeDir = true;}}});
+upButton.addEventListener("click", ()=>{if (!autopilot){const { x, y } = direction;if (lock_changeDir == false && y === 0){direction = { x: 0, y: -1 };lock_changeDir = true;}}});
+downButton.addEventListener("click", ()=>{if (!autopilot){const { x, y } = direction;if (lock_changeDir == false && y === 0){direction = { x: 0, y: 1 };lock_changeDir = true;}}});
+rightButton.addEventListener("click", ()=>{if (!autopilot){const { x, y } = direction;if (lock_changeDir == false && x === 0){direction = { x: 1, y: 0 };lock_changeDir = true;}}});
 
-
+autopilot_button.addEventListener('click', ()=>{autopilot = !autopilot; if (autopilot){autopilot_button.innerHTML = 'Выключить автопилот'}else{autopilot_button.innerHTML = 'Включить автопилот'}})
 window.requestAnimationFrame(main);
