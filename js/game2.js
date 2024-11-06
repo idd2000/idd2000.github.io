@@ -1,7 +1,5 @@
 const canvasSnake = document.getElementById("snake");
-const canvasOther = document.getElementById("other");
 const ctxSnake = canvasSnake.getContext("2d");
-const ctxOther = canvasOther.getContext("2d");
 
 const ground = new Image();
 ground.src = get_image('ground')
@@ -251,17 +249,17 @@ function drawGame() {
 
     if (snakeX == food.x && snakeY == food.y) {
       score++;
-      ctxOther.clearRect(food.x, food.y, box, box);
+      ctxSnake.clearRect(food.x, food.y, box, box);
       food = {
         x: Math.floor((Math.random() * 17 + 1)) * box,
         y: Math.floor((Math.random() * 15 + 3)) * box,
       };
-      ctxOther.drawImage(foodImg, food.x, food.y);
+      ctxSnake.drawImage(foodImg, food.x, food.y);
       
-      ctxOther.clearRect(0, 0, 600, 96);
-      ctxOther.fillStyle = "white";
-      ctxOther.font = "50px Arial";
-      ctxOther.fillText(score, box * 2.5, box * 1.7);
+      ctxSnake.clearRect(0, 0, 600, 96);
+      ctxSnake.fillStyle = "white";
+      ctxSnake.font = "50px Arial";
+      ctxSnake.fillText(score, box * 2.5, box * 1.7);
     } else {
       snake.pop();
     }
@@ -318,10 +316,10 @@ function drawGame() {
     // ctxSnake.stroke();
   }
 }
-ctxOther.drawImage(foodImg, food.x, food.y);
+ctxSnake.drawImage(foodImg, food.x, food.y);
 
-ctxOther.fillStyle = "white";
-ctxOther.font = "50px Arial";
+ctxSnake.fillStyle = "white";
+ctxSnake.font = "50px Arial";
 ctxOther.fillText(score, box * 2.5, box * 1.7);
 drawGame()
 let game = setInterval(drawGame, 10000 / fps);
