@@ -21,16 +21,17 @@
 <body>
   <div class="game">
     <span id="score">0</span>
-    <canvas id="snake" width="544" height="480"></canvas>
-  </div>
-  <div class="controls">
-    <button class="controls__button controls__left" id="button_left">←</button>
-    <div style="display: flex;flex-direction: column; gap: 4px;">
-      <button class="controls__button controls__up" id="button_up">↑</button>
-      <button class="controls__button controls__down" id="button_down">↓</button>
+    <div class="game-canvas">
+      <canvas id="snake" width="544" height="480"></canvas>
+      <div class="controls">
+        <button class="controls__button controls__left" id="button_left" style="display: none;">←</button>
+        <button class="controls__button controls__up" id="button_up" style="display: block;">↑</button>
+        <button class="controls__button controls__down" id="button_down" style="display: block;">↓</button>
+        <button class="controls__button controls__right" id="button_right" style="display: none;">→</button>
+      </div>
     </div>
-    <button class="controls__button controls__right" id="button_right">→</button>
   </div>
+
 
   <button id="autopilot_button">Включить автопилот</button>
   <div style="display: flex; gap: 6px; margin-top: 10px;">

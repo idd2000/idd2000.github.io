@@ -181,10 +181,41 @@ function changeDirection(event) {
 }
 window.addEventListener("keydown", changeDirection);
 
-leftButton.addEventListener("click", () => { if (!autopilot) { const { x, y } = direction; if (lock_changeDir == false && x === 0) { direction = { x: -1, y: 0 }; lock_changeDir = true; } } });
-upButton.addEventListener("click", () => { if (!autopilot) { const { x, y } = direction; if (lock_changeDir == false && y === 0) { direction = { x: 0, y: -1 }; lock_changeDir = true; } } });
-downButton.addEventListener("click", () => { if (!autopilot) { const { x, y } = direction; if (lock_changeDir == false && y === 0) { direction = { x: 0, y: 1 }; lock_changeDir = true; } } });
-rightButton.addEventListener("click", () => { if (!autopilot) { const { x, y } = direction; if (lock_changeDir == false && x === 0) { direction = { x: 1, y: 0 }; lock_changeDir = true; } } });
+function buttonsControls(dir){
+  if (!autopilot) {
+    const { x, y } = direction; 
+    if (lock_changeDir == false && ((x === 0 && dir.x != 0) || (y === 0 && dir.y != 0))) {
+      direction = dir;
+      lock_changeDir = true;
+      
+      if (direction.x != 0){
+        leftButton.style.display = 'none';
+        rightButton.style.display = 'none';
+        upButton.style.display = 'block';
+        downButton.style.display = 'block';
+      }
+      if (direction.y != 0){
+        leftButton.style.display = 'block';
+        rightButton.style.display = 'block';
+        upButton.style.display = 'none';
+        downButton.style.display = 'none';
+      }
+    }
+  }
+}
+
+leftButton.addEventListener("click", () => {
+  buttonsControls({ x: -1, y: 0 })
+});
+upButton.addEventListener("click", () => {
+  buttonsControls({ x: 0, y: -1 })
+});
+downButton.addEventListener("click", () => {
+  buttonsControls({ x: 0, y: 1 })
+});
+rightButton.addEventListener("click", () => {
+  buttonsControls({ x: 1, y: 0 })
+});
 
 autopilot_button.addEventListener('click', () => { autopilot = !autopilot; if (autopilot) { autopilot_button.innerHTML = 'Выключить автопилот' } else { autopilot_button.innerHTML = 'Включить автопилот' } })
 difficulty_select.addEventListener('change', (e) => { difficulty = Number(e.target.value); })
