@@ -52,6 +52,8 @@ const rightButton = document.getElementById("button_right")
 const autopilot_button = document.getElementById("autopilot_button");
 const reset_button = document.getElementById("reset_button");
 const game_menu = document.getElementById("game_menu");
+const score_in_menu = document.getElementById("score_in_menu");
+const record_in_menu = document.getElementById("record_in_menu");
 let autopilot = false;
 
 const snakeAI = new SnakeAI({ width: canvasWidth, height: canvasHeight }, snake, rocks);
@@ -162,6 +164,10 @@ function update() {
 function endGame() {
   is_end_game = true
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  score_in_menu.innerHTML = score
+  if (Number(record_in_menu.innerHTML) < score){
+    record_in_menu.innerHTML = score
+  }
   game_menu.style.display='flex';
 }
 function resetGame(){
