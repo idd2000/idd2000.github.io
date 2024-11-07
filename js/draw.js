@@ -1,13 +1,5 @@
 function draw(delta) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // Рисуем еду
-  ctx.drawImage(foodImage, food.x * gridSize, food.y * gridSize, gridSize, gridSize);
-  if (candy)
-    ctx.drawImage(candyImage, candy.x * gridSize, candy.y * gridSize, gridSize, gridSize);
-  rocks.forEach(rock => {
-    // Рисуем камни
-    ctx.drawImage(rockImage, rock.x * gridSize, rock.y * gridSize, gridSize, gridSize);
-  })
 
   // Рисуем сегменты змейки с поворотом
   snake.forEach((segment, index) => {
@@ -27,6 +19,14 @@ function draw(delta) {
         drawSegment(segment, index, calculateWaist(index), snake[index]['namesegment'])
       }
     }
+    // Рисуем еду
+    ctx.drawImage(foodImage, food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+    if (candy)
+      ctx.drawImage(candyImage, candy.x * gridSize, candy.y * gridSize, gridSize, gridSize);
+    rocks.forEach(rock => {
+      // Рисуем камни
+      ctx.drawImage(rockImage, rock.x * gridSize, rock.y * gridSize, gridSize, gridSize);
+    })
   });
   
   let angle = 0;
@@ -83,43 +83,52 @@ function drawTail(segment, index, waist, delta = 0, angle = 0) {
       ctx.bezierCurveTo(gridSize, isClockwise ? waist : -waist, gridSize, isClockwise ? gridSize - waist : waist - gridSize, 0, isClockwise ? gridSize - waist : waist - gridSize);
       ctx.restore();
 
-      // // Если прошли через стену то рисуем второй хвост
-      // if (Math.abs(segment.x - prevSegment.x) > 1 || 
-      //     Math.abs(segment.y - prevSegment.y) > 1){
-      //   let isClockwise =
-      //     (segment.x > prevSegment.x && prevSegment.y > secondPrevSegment.y) ||
-      //     (segment.y > prevSegment.y && prevSegment.x < secondPrevSegment.x) ||
-      //     (segment.x < prevSegment.x && prevSegment.y < secondPrevSegment.y) ||
-      //     (segment.y < prevSegment.y && prevSegment.x > secondPrevSegment.x);
-      //   isClockwise = !isClockwise
-      //   let x = prevSegment.x * gridSize;
-      //   let y = prevSegment.y * gridSize;
-      //   if (Math.abs(segment.x - prevSegment.x) > 1){
-      //     //влево
-      //     if (Math.sign(segment.x - prevSegment.x) == -1){
-      //       x += gridSize
-      //     }
-      //     if (Math.sign(prevSegment.y - secondPrevSegment.y)==-1){
-      //       y += gridSize
-      //     }
-      //     console.log(x,y)
-      //   }else if (Math.abs(segment.y - prevSegment.y) > 1){
-      //     //вверх
-      //     x = prevSegment.x * gridSize;
-      //     y = prevSegment.y * gridSize;
-      //   }
-      //   ctx.save();
-      //   ctx.rotate(angle + (isClockwise ? deltaAngle : -deltaAngle));
-      //   ctx.clearRect(0, isClockwise ? 0 : -gridSize, gridSize, gridSize);
-      //   ctx.moveTo(0, isClockwise ? waist : -waist);
-      //   ctx.bezierCurveTo(gridSize, isClockwise ? waist : -waist, gridSize, isClockwise ? gridSize - waist : waist - gridSize, 0, isClockwise ? gridSize - waist : waist - gridSize);
-      //   ctx.restore();
-      // }
+      // Если прошли через стену то рисуем второй хвост
+      if (Math.abs(segment.x - prevSegment.x) > 1 || 
+          Math.abs(segment.y - prevSegment.y) > 1){
+        let isClockwise =
+          (segment.x > prevSegment.x && prevSegment.y > secondPrevSegment.y) ||
+          (segment.y > prevSegment.y && prevSegment.x < secondPrevSegment.x) ||
+          (segment.x < prevSegment.x && prevSegment.y < secondPrevSegment.y) ||
+          (segment.y < prevSegment.y && prevSegment.x > secondPrevSegment.x);
+        isClockwise = !isClockwise
+        let x = prevSegment.x * gridSize;
+        let y = prevSegment.y * gridSize;
+        if (Math.abs(segment.x - prevSegment.x) > 1){
+          //влево
+          if (Math.sign(segment.x - prevSegment.x) == -1){
+            x += gridSize
+          }
+          if (Math.sign(prevSegment.y - secondPrevSegment.y)==-1){
+            y += gridSize
+          }
+        }else if (Math.abs(segment.y - prevSegment.y) > 1){
+          //вверх
+          x = prevSegment.x * gridSize;
+          y = prevSegment.y * gridSize;
+          
+          if (Math.sign(segment.y - prevSegment.y) == -1){
+            y += gridSize
+          }
+          if (Math.sign(prevSegment.x - secondPrevSegment.x)==-1){
+            x += gridSize
+          }
+        }
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle + (isClockwise ? deltaAngle : -deltaAngle));
+        ctx.clearRect(0, isClockwise ? 0 : -gridSize, gridSize, gridSize);
+        ctx.moveTo(0, isClockwise ? waist : -waist);
+        ctx.bezierCurveTo(gridSize, isClockwise ? waist : -waist, gridSize, isClockwise ? gridSize - waist : waist - gridSize, 0, isClockwise ? gridSize - waist : waist - gridSize);
+        ctx.restore();
+      }
     } else {
       applyStraightTransformation(segment, angle, delta, waist);
+      drawTailWithWall(segment, prevSegment, angle, delta, waist);
     }
   } else {
     applyStraightTransformation(segment, angle, 0, waist);
+    drawTailWithWall(segment, prevSegment, angle, delta, waist);
   }
   ctx.fillStyle = fillStyle;
   ctx.fill();
@@ -140,13 +149,40 @@ function applyStraightTransformation(segment, angle, delta, waist) {
     translateX += gridSize + gridSize * delta;
     translateY += gridSize;
   }
-
   ctx.translate(translateX, translateY);
   ctx.rotate(angle);
   ctx.clearRect(0, 0, gridSize - 1, gridSize - 1);
   ctx.moveTo(0, waist);
   ctx.bezierCurveTo(gridSize, waist, gridSize, gridSize - waist, 0, gridSize - waist);
   ctx.restore();
+}
+
+function drawTailWithWall(segment, prevSegment, angle, delta, waist){
+  if (Math.abs(segment.x - prevSegment.x) > 1 || 
+      Math.abs(segment.y - prevSegment.y) > 1){
+    ctx.save();
+    let translateX = prevSegment.x * gridSize;
+    let translateY = prevSegment.y * gridSize;
+
+    if (angle < 0){
+      translateY += gridSize * delta;
+    }
+    else if (angle > 1 && angle < 2) {
+      translateX += gridSize;
+      translateY -= gridSize * delta - gridSize;
+    } else if (angle === 0) {
+      translateX -= gridSize * delta - gridSize;
+    }else if (angle > 3 && angle < 4) {
+      translateX += gridSize * delta;
+      translateY += gridSize;
+    }
+    ctx.translate(translateX, translateY);
+    ctx.rotate(angle);
+    ctx.clearRect(0, 0, gridSize - 1, gridSize - 1);
+    ctx.moveTo(0, waist);
+    ctx.bezierCurveTo(gridSize, waist, gridSize, gridSize - waist, 0, gridSize - waist);
+    ctx.restore();
+  }
 }
 
 function drawSegment(segment, index, waist, namesegment, delta = 0, angle = 0) {

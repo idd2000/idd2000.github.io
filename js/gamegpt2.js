@@ -35,7 +35,7 @@ let snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
 let direction = { x: 1, y: 0 };
 let food = null;
 food = getRandomPosition();
-let snakeSpeed = () => { return (1 + difficulty * 2) + Math.trunc(score / (6 - difficulty)) * 0.5 };
+let snakeSpeed = () => { return (1 + difficulty) + Math.trunc(score / 3) * 0.5 };
 // let snakeSpeed = () => { return 2 };
 let lastUpdateTime = 0;
 
