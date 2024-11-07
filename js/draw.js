@@ -19,14 +19,6 @@ function draw(delta) {
         drawSegment(segment, index, calculateWaist(index), snake[index]['namesegment'])
       }
     }
-    // Рисуем еду
-    ctx.drawImage(foodImage, food.x * gridSize, food.y * gridSize, gridSize, gridSize);
-    if (candy)
-      ctx.drawImage(candyImage, candy.x * gridSize, candy.y * gridSize, gridSize, gridSize);
-    rocks.forEach(rock => {
-      // Рисуем камни
-      ctx.drawImage(rockImage, rock.x * gridSize, rock.y * gridSize, gridSize, gridSize);
-    })
   });
   
   let angle = 0;
@@ -37,6 +29,16 @@ function draw(delta) {
   // Хвост
   angle = getRotationAngle(snake[snake.length - 2], snake[snake.length - 1]);
   drawTail(snake[snake.length - 1], snake.length - 1, calculateWaist(snake.length - 1), delta, angle)
+
+  
+  // Рисуем еду
+  ctx.drawImage(foodImage, food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+  if (candy)
+    ctx.drawImage(candyImage, candy.x * gridSize, candy.y * gridSize, gridSize, gridSize);
+  rocks.forEach(rock => {
+    // Рисуем камни
+    ctx.drawImage(rockImage, rock.x * gridSize, rock.y * gridSize, gridSize, gridSize);
+  })
 }
 function drawTail(segment, index, waist, delta = 0, angle = 0) {
   ctx.beginPath();
