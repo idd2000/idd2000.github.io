@@ -1,6 +1,6 @@
 const canvas = document.getElementById("snake");
 const ctx = canvas.getContext("2d");
-
+let is_end_game = false;
 const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
 for (let i=0; i<=1; i+= 0.05){
   gradient.addColorStop(i, generateHexColor());
@@ -50,6 +50,8 @@ const upButton = document.getElementById("button_up")
 const downButton = document.getElementById("button_down")
 const rightButton = document.getElementById("button_right")
 const autopilot_button = document.getElementById("autopilot_button");
+const reset_button = document.getElementById("reset_button");
+const game_menu = document.getElementById("game_menu");
 let autopilot = false;
 
 const snakeAI = new SnakeAI({ width: canvasWidth, height: canvasHeight }, snake, rocks);
@@ -57,14 +59,16 @@ let removerCandy;
 
 function main(currentTime) {
   window.requestAnimationFrame(main);
-  const secondsSinceLastUpdate = (currentTime - lastUpdateTime) / 1000;
-  if (secondsSinceLastUpdate >= 1 / snakeSpeed()){
-    lastUpdateTime = currentTime;
-    if (direction.x != 0 || direction.y != 0)
-      update();
+  if (!is_end_game){
+    const secondsSinceLastUpdate = (currentTime - lastUpdateTime) / 1000;
+    if (secondsSinceLastUpdate >= 1 / snakeSpeed()){
+      lastUpdateTime = currentTime;
+      if (direction.x != 0 || direction.y != 0)
+        update();
+    }
+    let delta = secondsSinceLastUpdate / (1 / snakeSpeed())
+    draw(delta>=1?0:delta);
   }
-  let delta = secondsSinceLastUpdate / (1 / snakeSpeed())
-  draw(delta>=1?0:delta);
 }
 
 function spawnRocks() {
@@ -147,7 +151,7 @@ function update() {
   if (head.x < 0 || head.x >= canvasWidth || head.y < 0 || head.y >= canvasHeight ||
     rocks.some((segment, index) => segment.x === head.x && segment.y === head.y) ||
     snake.some((segment, index) => index > 0 && segment.x === head.x && segment.y === head.y)) {
-    resetGame();
+    endGame();
   }
 
   snake.unshift(head);
@@ -155,16 +159,25 @@ function update() {
   snakeAI.snake = snake
 }
 
-function resetGame() {
+function endGame() {
+  is_end_game = true
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  game_menu.style.display='flex';
+}
+function resetGame(){
+  is_end_game = false
   candy = null;
   rocks = []
-  snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
   direction = { x: 1, y: 0 };
+  snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
   not_pop_snake = 3
   food = getRandomPosition();
   score = 0;
   scoreObj.innerHTML = score
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  updateButtons()
+  game_menu.style.display='none';
 }
 
 function changeDirection(event) {
@@ -177,6 +190,7 @@ function changeDirection(event) {
     if (key === "ArrowLeft" && x === 0) direction = { x: -1, y: 0 };
     if (key === "ArrowRight" && x === 0) direction = { x: 1, y: 0 };
     lock_changeDir = true;
+    updateButtons()
   }
 }
 window.addEventListener("keydown", changeDirection);
@@ -188,19 +202,23 @@ function buttonsControls(dir){
       direction = dir;
       lock_changeDir = true;
       
-      if (direction.x != 0){
-        leftButton.style.display = 'none';
-        rightButton.style.display = 'none';
-        upButton.style.display = 'block';
-        downButton.style.display = 'block';
-      }
-      if (direction.y != 0){
-        leftButton.style.display = 'block';
-        rightButton.style.display = 'block';
-        upButton.style.display = 'none';
-        downButton.style.display = 'none';
-      }
+      updateButtons()
     }
+  }
+}
+
+function updateButtons(){
+  if (direction.x != 0){
+    leftButton.style.display = 'none';
+    rightButton.style.display = 'none';
+    upButton.style.display = 'block';
+    downButton.style.display = 'block';
+  }
+  if (direction.y != 0){
+    leftButton.style.display = 'block';
+    rightButton.style.display = 'block';
+    upButton.style.display = 'none';
+    downButton.style.display = 'none';
   }
 }
 
@@ -217,6 +235,18 @@ rightButton.addEventListener("click", () => {
   buttonsControls({ x: 1, y: 0 })
 });
 
-autopilot_button.addEventListener('click', () => { autopilot = !autopilot; if (autopilot) { autopilot_button.innerHTML = 'Выключить автопилот' } else { autopilot_button.innerHTML = 'Включить автопилот' } })
+autopilot_button.addEventListener('click', () => { 
+  autopilot = !autopilot; 
+  if (autopilot) { 
+    autopilot_button.innerHTML = 'Выключить автопилот' 
+  } else { 
+    autopilot_button.innerHTML = 'Включить автопилот' 
+  }
+  updateButtons()
+
+})
+reset_button.addEventListener('click', () => {
+  resetGame()
+})
 difficulty_select.addEventListener('change', (e) => { difficulty = Number(e.target.value); })
 window.requestAnimationFrame(main);

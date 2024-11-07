@@ -65,3 +65,53 @@ canvas {
   padding: 10px 20px;
   margin-top: 20px;
 }
+
+.menu{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.menu-window{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 300px;
+}
+.score-block{
+  padding: 20px;
+  width: 300px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to top, #B6C9D8 0%, #B6C9D8 20%, #1687b3 100%);
+}
+.score-block img{
+  width: 90%;
+}
+.score-data{
+  display: flex;
+  gap: 60px;
+  margin-bottom: 20px;
+}
+.score-data span{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 28px;
+  color: white;
+  font-family: sans-serif;
+  font-weight: 400;
+}
+.score-data span img{
+  width: 60px;
+  height: 60px;
+}
