@@ -81,7 +81,7 @@ canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 10px;
   width: 300px;
 }
 .score-block{
