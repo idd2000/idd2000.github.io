@@ -35,8 +35,8 @@ let snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
 let direction = { x: 1, y: 0 };
 let food = null;
 food = getRandomPosition();
-let snakeSpeed = () => { return (1 + difficulty) + Math.trunc(score / 3) * 0.5 };
-// let snakeSpeed = () => { return 2 };
+let snakeSpeed = () => { return (5 + difficulty) + Math.trunc(score / 2) * 0.5 };
+// let snakeSpeed = () => { return 3 };
 let lastUpdateTime = 0;
 
 const headTexture = new Image();
@@ -199,7 +199,6 @@ function changeDirection(event) {
     updateButtons()
   }
 }
-window.addEventListener("keydown", changeDirection);
 
 function buttonsControls(dir){
   if (!autopilot) {
@@ -212,6 +211,7 @@ function buttonsControls(dir){
     }
   }
 }
+window.addEventListener("keydown", changeDirection);
 
 function updateButtons(){
   if (direction.x != 0){
