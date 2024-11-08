@@ -80,7 +80,7 @@ function drawTail(segment, index, waist, delta = 0, angle = 0) {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(angle + (isClockwise ? deltaAngle : -deltaAngle));
-      ctx.clearRect(0, isClockwise ? 0 : -gridSize, gridSize, gridSize);
+      ctx.clearRect(1, isClockwise ? 1 : -gridSize+1, gridSize, gridSize);
       ctx.moveTo(0, isClockwise ? waist : -waist);
       ctx.bezierCurveTo(gridSize, isClockwise ? waist : -waist, gridSize, isClockwise ? gridSize - waist : waist - gridSize, 0, isClockwise ? gridSize - waist : waist - gridSize);
       ctx.restore();
@@ -119,7 +119,7 @@ function drawTail(segment, index, waist, delta = 0, angle = 0) {
         ctx.save();
         ctx.translate(x, y);
         ctx.rotate(angle + (isClockwise ? deltaAngle : -deltaAngle));
-        ctx.clearRect(0, isClockwise ? 0 : -gridSize, gridSize, gridSize);
+        ctx.clearRect(1, isClockwise ? 1 : -gridSize+1, gridSize, gridSize);
         ctx.moveTo(0, isClockwise ? waist : -waist);
         ctx.bezierCurveTo(gridSize, isClockwise ? waist : -waist, gridSize, isClockwise ? gridSize - waist : waist - gridSize, 0, isClockwise ? gridSize - waist : waist - gridSize);
         ctx.restore();
@@ -153,7 +153,7 @@ function applyStraightTransformation(segment, angle, delta, waist) {
   }
   ctx.translate(translateX, translateY);
   ctx.rotate(angle);
-  ctx.clearRect(0, 0, gridSize - 1, gridSize - 1);
+  ctx.clearRect(1, 1, gridSize, gridSize);
   ctx.moveTo(0, waist);
   ctx.bezierCurveTo(gridSize, waist, gridSize, gridSize - waist, 0, gridSize - waist);
   ctx.restore();
@@ -180,7 +180,7 @@ function drawTailWithWall(segment, prevSegment, angle, delta, waist){
     }
     ctx.translate(translateX, translateY);
     ctx.rotate(angle);
-    ctx.clearRect(0, 0, gridSize - 1, gridSize - 1);
+    ctx.clearRect(1, 1, gridSize, gridSize);
     ctx.moveTo(0, waist);
     ctx.bezierCurveTo(gridSize, waist, gridSize, gridSize - waist, 0, gridSize - waist);
     ctx.restore();
@@ -191,19 +191,19 @@ function drawSegment(segment, index, waist, namesegment, delta = 0, angle = 0) {
   let to;
   let fromWaist;
   let toWaist;
-  if (namesegment != 'tail') {
-    if (snake[index + 1].x < segment.x) {
-      to = 'left'
-    } else if (snake[index + 1].x > segment.x) {
-      to = 'right'
-    } else if (snake[index + 1].y < segment.y) {
-      to = 'top'
-    } else if (snake[index + 1].y > segment.y) {
-      to = 'bottom'
-    }
-    fromWaist = waist
-    toWaist = calculateWaist(index + 1)
+
+  if (snake[index + 1].x < segment.x) {
+    to = 'left'
+  } else if (snake[index + 1].x > segment.x) {
+    to = 'right'
+  } else if (snake[index + 1].y < segment.y) {
+    to = 'top'
+  } else if (snake[index + 1].y > segment.y) {
+    to = 'bottom'
   }
+  fromWaist = waist
+  toWaist = calculateWaist(index + 1)
+
 
   ctx.beginPath();
   if (namesegment == "horizontal") {
@@ -256,138 +256,13 @@ function drawSegment(segment, index, waist, namesegment, delta = 0, angle = 0) {
       fromWaist = calculateWaist(index + 1)
       toWaist = waist
     }
-    ctx.moveTo(segment.x * gridSize + fromWaist, segment.y * gridSize);
-    ctx.arcTo(segment.x * gridSize + toWaist, segment.y * gridSize + gridSize - toWaist, segment.x * gridSize + gridSize, segment.y * gridSize + gridSize - toWaist, gridSize - toWaist);
-    ctx.lineTo(segment.x * gridSize + gridSize, segment.y * gridSize + toWaist);
-    ctx.arcTo(segment.x * gridSize + gridSize - fromWaist, segment.y * gridSize + fromWaist, segment.x * gridSize + gridSize - fromWaist, segment.y * gridSize, fromWaist);
-  } else if (namesegment == "tail") {
-    if (not_pop_snake == 0) {
-      if (!((snake[index - 2] && checkIfTurn(snake[index - 2], segment)) || !snake[index - 2])) {
-        ctx.save();
-        if (angle < 0) {
-          // вверх
-          ctx.translate(segment.x * gridSize, segment.y * gridSize + gridSize + gridSize * delta);
-        } else if (angle > 1 && angle < 2) {
-          // вниз
-          ctx.translate(segment.x * gridSize + gridSize, segment.y * gridSize - gridSize * delta);
-        } else if (angle == 0) {
-          // влево
-          ctx.translate(segment.x * gridSize - gridSize * delta, segment.y * gridSize);
-        } else if (angle > 3 && angle < 4) {
-          // вправо
-          ctx.translate(segment.x * gridSize + gridSize + gridSize * delta, segment.y * gridSize + gridSize);
-        }
-        ctx.rotate(angle);
-        ctx.clearRect(0, 0, gridSize - 1, gridSize - 1)
-        ctx.moveTo(0, waist)
-        ctx.bezierCurveTo(gridSize, waist, gridSize, gridSize - waist, 0, gridSize - waist);
-
-        ctx.restore(); // Восстанавливаем исходное состояние контекста
-      } else {
-        let deltaAngle = Math.PI / 2 * delta;
-        ctx.save();
-        if (snake[index - 1].y > segment.y) {
-          // вниз
-          if (snake[index - 2].x < snake[index - 1].x) {
-            // влево
-            ctx.translate(segment.x * gridSize, segment.y * gridSize + gridSize);
-            ctx.rotate(angle + deltaAngle);
-
-            ctx.clearRect(0, 0, gridSize - 1, gridSize - 1)
-            ctx.moveTo(0, waist)
-            ctx.bezierCurveTo(gridSize, waist, gridSize, gridSize - waist, 0, gridSize - waist);
-          } else {
-            // вправо
-            ctx.translate(segment.x * gridSize + gridSize, segment.y * gridSize + gridSize);
-            ctx.rotate((Math.PI / 2) - deltaAngle);
-
-            ctx.clearRect(-gridSize, 0, gridSize - 1, gridSize - 1)
-            ctx.moveTo(0, waist)
-            ctx.bezierCurveTo(-gridSize, waist, -gridSize, gridSize - waist, 0, gridSize - waist);
-          }
-        } else if (snake[index - 1].y < segment.y) {
-          // вверх
-          if (snake[index - 2].x < snake[index - 1].x) {
-            // влево
-            ctx.translate(segment.x * gridSize, segment.y * gridSize);
-            ctx.rotate(Math.PI / 2 - deltaAngle);
-
-            ctx.clearRect(0, -gridSize, gridSize - 1, gridSize - 1)
-            ctx.moveTo(0, -waist)
-            ctx.bezierCurveTo(gridSize, -waist, gridSize, -gridSize + waist, 0, -gridSize + waist);
-          } else {
-            // вправо
-            ctx.translate(segment.x * gridSize + gridSize, segment.y * gridSize);
-            ctx.rotate(deltaAngle);
-
-            ctx.clearRect(-gridSize, 0, gridSize - 1, gridSize - 1)
-            ctx.moveTo(-waist, 0)
-            ctx.bezierCurveTo(-waist, gridSize, -gridSize + waist, gridSize, -gridSize + waist, 0);
-          }
-        } else if (snake[index - 1].x > segment.x) {
-          // вправо
-
-          if (snake[index - 2].y < snake[index - 1].y) {
-            // вверх
-            ctx.translate(segment.x * gridSize + gridSize, segment.y * gridSize);
-            ctx.rotate(-deltaAngle);
-
-            ctx.clearRect(-gridSize, 0, gridSize - 1, gridSize - 1)
-            ctx.moveTo(0, waist)
-            ctx.bezierCurveTo(-gridSize, waist, -gridSize, gridSize - waist, 0, gridSize - waist);
-          } else {
-            // вниз
-            ctx.translate(segment.x * gridSize + gridSize, segment.y * gridSize + gridSize);
-            ctx.rotate(deltaAngle);
-
-            ctx.clearRect(-gridSize, -gridSize, gridSize - 1, gridSize - 1)
-            ctx.moveTo(0, -waist)
-            ctx.bezierCurveTo(-gridSize, -waist, -gridSize, -gridSize + waist, 0, -gridSize + waist);
-          }
-        } else if (snake[index - 1].x < segment.x) {
-          // влево
-          if (snake[index - 2].y < snake[index - 1].y) {
-            // вверх
-            ctx.translate(segment.x * gridSize, segment.y * gridSize);
-            ctx.rotate(deltaAngle);
-
-            ctx.clearRect(0, 0, gridSize - 1, gridSize - 1)
-            ctx.moveTo(0, waist)
-            ctx.bezierCurveTo(gridSize, waist, gridSize, gridSize - waist, 0, gridSize - waist);
-          } else {
-            // вниз
-            ctx.translate(segment.x * gridSize, segment.y * gridSize + gridSize);
-            ctx.rotate(-deltaAngle);
-
-            ctx.clearRect(0, -gridSize, gridSize - 1, gridSize - 1)
-            ctx.moveTo(0, -waist)
-            ctx.bezierCurveTo(gridSize, -waist, gridSize, -gridSize + waist, 0, -gridSize + waist);
-          }
-        }
-        ctx.restore(); // Восстанавливаем исходное состояние контекста
-      }
-    } else {
-      ctx.save();
-      if (angle < 0) {
-        // вверх
-        ctx.translate(segment.x * gridSize, segment.y * gridSize + gridSize);
-      } else if (angle > 1 && angle < 2) {
-        // вниз
-        ctx.translate(segment.x * gridSize + gridSize, segment.y * gridSize);
-      } else if (angle == 0) {
-        // влево
-        ctx.translate(segment.x * gridSize, segment.y * gridSize);
-      } else if (angle > 3 && angle < 4) {
-        // вправо
-        ctx.translate(segment.x * gridSize + gridSize, segment.y * gridSize + gridSize);
-      }
-      ctx.rotate(angle);
-      ctx.clearRect(0, 0, gridSize - 1, gridSize - 1)
-      ctx.moveTo(0, waist)
-      ctx.bezierCurveTo(gridSize, waist, gridSize, gridSize - waist, 0, gridSize - waist);
-
-      ctx.restore(); // Восстанавливаем исходное состояние контекста
-    }
+    ctx.save()
+    ctx.translate(segment.x * gridSize, segment.y * gridSize)
+    ctx.moveTo(fromWaist, 0);
+    ctx.arcTo(waist, gridSize - toWaist, gridSize, gridSize - toWaist, gridSize - toWaist);
+    ctx.lineTo(gridSize, toWaist);
+    ctx.arcTo(gridSize - fromWaist, fromWaist, gridSize - fromWaist, 0, fromWaist);
+    ctx.restore()
   }
   ctx.fillStyle = fillStyle;
   ctx.fill();
@@ -414,7 +289,7 @@ function drawHead(segment, delta = 0, angle = 0){
       ctx.translate(segment.x * gridSize + deltaPath, segment.y * gridSize + gridSize);
     }
     ctx.rotate(angle);
-    ctx.clearRect(0, 0, gridSize, gridSize)
+    ctx.clearRect(-1,-1, gridSize, gridSize)
     ctx.drawImage(img, 0, 0, gridSize, gridSize);
     ctx.restore();
     // Если пересекаем стену, то рисуем вторую голову
@@ -434,7 +309,7 @@ function drawHead(segment, delta = 0, angle = 0){
         ctx.translate(snake[1].x * gridSize + gridSize, snake[1].y * gridSize - deltaPath);
       }
       ctx.rotate(angle);
-      ctx.clearRect(0, 0, gridSize, gridSize)
+      ctx.clearRect(-1, -1, gridSize, gridSize)
       ctx.drawImage(img, 0, 0, gridSize, gridSize);
       ctx.restore();
     }
@@ -487,7 +362,7 @@ function drawHead(segment, delta = 0, angle = 0){
         ctx.translate(segment.x * gridSize, segment.y * gridSize);
       }
       ctx.rotate(angle - Math.PI / 2 + deltaAngle);
-      ctx.clearRect(-gridSize, 0, gridSize, gridSize)
+      ctx.clearRect(-gridSize-1, -1, gridSize, gridSize)
       ctx.drawImage(img, -gridSize, 0, gridSize, gridSize);
     } else {
       if (move1 == 'bottom') {
@@ -503,7 +378,7 @@ function drawHead(segment, delta = 0, angle = 0){
         ctx.translate(segment.x * gridSize, segment.y * gridSize + gridSize);
       }
       ctx.rotate(angle + Math.PI / 2 - deltaAngle);
-      ctx.clearRect(-gridSize, -gridSize, gridSize, gridSize)
+      ctx.clearRect(-gridSize-1, -gridSize-1, gridSize, gridSize)
       ctx.drawImage(img, -gridSize, -gridSize, gridSize, gridSize);
     }
     ctx.restore();
@@ -544,7 +419,7 @@ function drawHead(segment, delta = 0, angle = 0){
           ctx.translate(snake[1].x * gridSize, snake[1].y * gridSize + gridSize);
         }
         ctx.rotate(angle - Math.PI / 2 + deltaAngle);
-        ctx.clearRect(-gridSize, 0, gridSize, gridSize)
+        ctx.clearRect(-gridSize-1, -1, gridSize, gridSize)
         ctx.drawImage(img, -gridSize, 0, gridSize, gridSize);
       } else {
         if (move1 == 'bottom') {
@@ -560,7 +435,7 @@ function drawHead(segment, delta = 0, angle = 0){
           ctx.translate(snake[1].x * gridSize, snake[1].y * gridSize);
         }
         ctx.rotate(angle + Math.PI / 2 - deltaAngle);
-        ctx.clearRect(-gridSize, -gridSize, gridSize, gridSize)
+        ctx.clearRect(-gridSize-1, -gridSize-1, gridSize, gridSize)
         ctx.drawImage(img, -gridSize, -gridSize, gridSize, gridSize);
       }
       ctx.restore();
