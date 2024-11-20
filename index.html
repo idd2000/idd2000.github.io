@@ -23,6 +23,7 @@
 
     <div class="game">
       <span id="score">0</span>
+      <button id="autopilot_button">Включить автопилот</button>
       <div class="game-canvas">
         <canvas id="snake" width="544" height="480"></canvas>
         <div class="controls">
@@ -42,21 +43,13 @@
             <span class="record"><img src="img/record.png" alt="record image"><span id="record_in_menu">0</span></span>
           </div>
           <img src="img/menu_image.png" alt="snake image">
+          <!-- TODO: style временно, пока нет дизайна -->
+          <button id="reset_button" style="padding: 10px 20px; margin-top: 20px;">Новая игра</button>
         </div>
-        <button id="reset_button" style="padding: 10px 20px;">Новая игра</button>
         <!-- <button class="">Таблица лидеров</button> -->
       </div>
     </div>
 
-    <button id="autopilot_button">Включить автопилот</button>
-    <div style="display: flex; gap: 6px; margin-top: 10px; color: white;">
-      <span>Уровень сложности</span>
-      <select id="difficulty">
-        <option value="1">Легкий</option>
-        <option value="2">Средний</option>
-        <option value="3" selected>Сложный</option>
-      </select>
-    </div>
   </div>
 
 

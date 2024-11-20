@@ -92,8 +92,10 @@ body{
 }
 
 #autopilot_button{
-  padding: 10px 20px;
-  margin-top: 20px;
+  padding: 4px 8px;
+  position: absolute;
+  top: 3.8%;
+  right: 5.25%;
 }
 
 .menu{
