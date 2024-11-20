@@ -19,17 +19,21 @@
   <link rel="preload" href="img/candy.png" as="image" type="image/png" />
 </head>
 <body>
-  <div class="game">
-    <span id="score">0</span>
-    <div class="game-canvas">
-      <canvas id="snake" width="544" height="480"></canvas>
-      <div class="controls">
-        <button class="controls__button controls__left" id="button_left" style="display: none;">←</button>
-        <button class="controls__button controls__up" id="button_up" style="display: block;">↑</button>
-        <button class="controls__button controls__down" id="button_down" style="display: block;">↓</button>
-        <button class="controls__button controls__right" id="button_right" style="display: none;">→</button>
+  <div class="gameWrapper">
+
+    <div class="game">
+      <span id="score">0</span>
+      <div class="game-canvas">
+        <canvas id="snake" width="544" height="480"></canvas>
+        <div class="controls">
+          <button class="controls__button controls__left" id="button_left" style="display: none;">←</button>
+          <button class="controls__button controls__up" id="button_up" style="display: block;">↑</button>
+          <button class="controls__button controls__down" id="button_down" style="display: block;">↓</button>
+          <button class="controls__button controls__right" id="button_right" style="display: none;">→</button>
+        </div>
       </div>
     </div>
+
     <div class="menu" id="game_menu" style="display: none;">
       <div class="menu-window">
         <div class="score-block">
@@ -43,18 +47,19 @@
         <!-- <button class="">Таблица лидеров</button> -->
       </div>
     </div>
+
+    <button id="autopilot_button" style="display: none;">Включить автопилот</button>
+    <div style="display: none; gap: 6px; margin-top: 10px;">
+      <span>Уровень сложности</span>
+      <select id="difficulty">
+        <option value="1">Легкий</option>
+        <option value="2">Средний</option>
+        <option value="3" selected>Сложный</option>
+      </select>
+    </div>
   </div>
 
 
-  <button id="autopilot_button">Включить автопилот</button>
-  <div style="display: flex; gap: 6px; margin-top: 10px;">
-    <span>Уровень сложности</span>
-    <select id="difficulty">
-      <option value="1">Легкий</option>
-      <option value="2">Средний</option>
-      <option value="3" selected>Сложный</option>
-    </select>
-  </div>
   <!-- <script src="js/game2.js"></script> -->
   <!-- <script src="js/ai.js"></script>
   <script src="js/draw.js"></script> -->
