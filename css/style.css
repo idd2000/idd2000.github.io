@@ -44,13 +44,16 @@ body{
 }
 
 .controls__button{
-  border: none;
+  outline: 1px solid white;
+  background-color: #000000;
+  color: #fff;
   padding: 0;
   font-size: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0;
+  border: none;
+  transition: opacity 0.6s;
 }
 .game .game-canvas .controls{
   width: 100%;
